@@ -1,10 +1,11 @@
 from flask import Flask, request, url_for, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
+import os
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///pizzas.sqlite3'
-app.config['SECRET_KEY'] = "1234567890"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 db = SQLAlchemy(app)
 
@@ -79,6 +80,8 @@ def create_pizza_post():
             #if toppping is newly selected add topping
             elif (str(topping.id) in pizza_topping_ids) and not(topping in pizza.toppings):
                 pizza.toppings.append(topping)
+
+            #Author: Bryce McGilly
 
     elif pizza_name:
         new_pizza = Pizza(
