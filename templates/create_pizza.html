@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza Manager | Create A Pizza</title>
+    <style>
+        th {
+          text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <hr/>
+    <h3>
+        PIZZA MANAGER
+    </h3>
+    <hr/>
+    <a href="{{ url_for('manage_pizzas') }}" title="Manage Pizzas">Manage Pizzas</a>
+    <br><br>
+    <a href="{{ url_for('manage_toppings') }}" title="Manage Toppings">Manage Toppings</a>
+    <br><br>
+    <a href="{{ url_for('create_pizza') }}" title="Create A Pizza">Create A Pizza</a>
+    <hr/>
+    <br><br>
+
+    <form action="{{ url_for('create_pizza') }}" method="POST">
+        <label for="pizza-name"><b>Pizza Name</b></label>
+        <br>
+        <input type="hidden" name="pizza-id" value="{{ pizza.id }}">
+        <input type="text" name="pizza-name" placeholder="Pizza Name" value="{{ pizza.name }}" maxlength = "50">
+        <br><br><br>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Add Toppings</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for topping in toppings %}
+                    <tr>
+                        <td>{{ topping.name }}</td>
+
+                        {% if topping in pizza_toppings %}
+                            <td><input type="checkbox" name="pizza-topping-ids" value="{{ topping.id }}" checked></td>
+                        {% else %}
+                            <td><input type="checkbox" name="pizza-topping-ids" value="{{ topping.id }}"></td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br><br>
+
+        <input type="submit" value="Create Pizza">
+    </form>
+
+</body>
+</html>
