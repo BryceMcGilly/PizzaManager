@@ -24,7 +24,12 @@
     <br><br>
     <a href="{{ url_for('create_pizza') }}" title="Create A Pizza">Create A Pizza</a>
     <hr/>
-    <br><br>
+    
+    {% for message in get_flashed_messages() %}
+    <p> {{message}} </p>
+    {% endfor %}
+    <hr/>
+    <br>
 
     <table>
         <thead>

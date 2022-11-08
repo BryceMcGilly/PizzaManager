@@ -1,4 +1,4 @@
-from flask import Flask, request, url_for, redirect, render_template
+from flask import Flask, request, url_for, redirect, render_template, flash
 from flask_sqlalchemy import SQLAlchemy
 import os
 
@@ -39,6 +39,7 @@ def home():
 @app.route('/manage_pizzas')
 def manage_pizzas():
     pizzas = Pizza.query.all()
+    flash("Click the Update button to modify an existing pizza or Delete to remove it.")
 
     return render_template('manage_pizzas.html', pizzas=pizzas)
 
@@ -47,6 +48,7 @@ def delete_pizza(pizza_id):
     pizza = Pizza.query.get_or_404(pizza_id)
     db.session.delete(pizza)
     db.session.commit()
+    flash(pizza.name + " has been removed.")
 
     return redirect(url_for('manage_pizzas'))
 
@@ -56,6 +58,7 @@ def edit_pizza(pizza_id):
     pizzas = Pizza.query.all()
     toppings = Topping.query.all()
     pizza_toppings = pizza.toppings
+    flash("Modify the name or toppings of " + pizza.name + " and click Create Pizza to save your changes.")
 
     return render_template('create_pizza.html', pizzas=pizzas, pizza=pizza, toppings=toppings, pizza_toppings=pizza_toppings)
 
@@ -63,6 +66,7 @@ def edit_pizza(pizza_id):
 def create_pizza():
     pizzas = Pizza.query.all()
     toppings = Topping.query.all()
+    flash("Type a name for your new pizza, select the toppings you want on it and click Create Pizza to save it.")
 
     return render_template('create_pizza.html', pizzas=pizzas, pizza=None, toppings=toppings)
 
@@ -88,27 +92,29 @@ def create_pizza_post():
             #Author: Bryce McGilly
 
     elif pizza_name:
-        new_pizza = Pizza(
-            name=pizza_name
-        )
+        new_pizza = Pizza(name=pizza_name)
 
         for topping_id in pizza_topping_ids:
-            new_pizza.toppings.append(
-                Topping.query.get_or_404(topping_id)
-            )
+            new_pizza.toppings.append(Topping.query.get_or_404(topping_id))
 
         db.session.add(new_pizza)
 
     try:
-        db.session.commit()
+        if pizza_name:
+            db.session.commit()
+            flash(pizza_name + " created or modified!")
+        else:
+            flash("Not able to save pizza, name is blank.")
     except:
-        print("Not able to commit() database probably due to duplicate Pizza Name: " + pizza_name)
+        flash("Not able to save pizza, does " + pizza_name + " already exist?")
 
     return redirect(url_for('manage_pizzas'))
 
 @app.route('/manage_toppings')
 def manage_toppings():
     toppings = Topping.query.all()
+    flash("Enter a topping name and click Add to save it.")
+    flash("Click Update to modify or Delete to remove an existing topping.")
 
     return render_template('manage_toppings.html', toppings=toppings, topping=None)
 
@@ -129,9 +135,13 @@ def manage_toppings_post():
         db.session.add(new_topping)
 
     try:
-        db.session.commit()
+        if topping_name:
+            db.session.commit()
+            flash(topping_name + " created or modified!")
+        else:
+            flash("Not able to save topping, name is blank.")
     except:
-        print("Not able to commit() database probably due to duplicate Topping Name: " + topping_name)
+        flash("Not able to save topping, does " + topping_name + " already exist?")
 
     return redirect(url_for('manage_toppings'))
 
@@ -140,6 +150,7 @@ def delete_topping(topping_id):
     topping = Topping.query.get_or_404(topping_id)
     db.session.delete(topping)
     db.session.commit()
+    flash(topping.name + " has been removed.")
 
     return redirect(url_for('manage_toppings'))
 
@@ -147,5 +158,6 @@ def delete_topping(topping_id):
 def edit_topping(topping_id):
     topping = Topping.query.get_or_404(topping_id)
     toppings = Topping.query.all()
+    flash("Modify the name of the topping " + topping.name + " and click Add to save your changes.")
 
     return render_template('manage_toppings.html', toppings=toppings, topping=topping)
