@@ -22,8 +22,11 @@ def manage_pizzas():
 def delete_pizza(pizza_id):
     pizza = Pizza.query.get_or_404(pizza_id)
     db.session.delete(pizza)
-    db.session.commit()
-    flash(pizza.name + " has been removed.")
+    try:
+        db.session.commit()
+        flash(pizza.name + " has been removed.")
+    except:
+        flash("Not able to delete pizza: " + pizza.name + ".")
 
     return redirect(url_for('main.manage_pizzas'))
 
@@ -51,37 +54,30 @@ def create_pizza_post():
     pizza_id = request.form.get('pizza-id')
     pizza_topping_ids = request.form.getlist('pizza-topping-ids')
 
-    if pizza_id and pizza_name:
-        pizza = Pizza.query.get_or_404(pizza_id)
-        pizza.name = pizza_name
-
-        for topping in Topping.query.all():
-            #if topping is no longer selected remove topping
-            if not(str(topping.id) in pizza_topping_ids) and (topping in pizza.toppings):
-                pizza.toppings.remove(topping)
-                
-            #if toppping is newly selected add topping
-            elif (str(topping.id) in pizza_topping_ids) and not(topping in pizza.toppings):
-                pizza.toppings.append(topping)
-
-            #Author: Bryce McGilly
-
-    elif pizza_name:
-        new_pizza = Pizza(name=pizza_name)
-
-        for topping_id in pizza_topping_ids:
-            new_pizza.toppings.append(Topping.query.get_or_404(topping_id))
-
-        db.session.add(new_pizza)
-
-    try:
-        if pizza_name:
+    if pizza_name:
+        if pizza_id:
+            pizza = Pizza.query.get_or_404(pizza_id)
+            pizza.name = pizza_name
+            for topping in Topping.query.all():
+                #if topping is no longer selected remove topping
+                if not(str(topping.id) in pizza_topping_ids) and (topping in pizza.toppings):
+                    pizza.toppings.remove(topping)
+                #if toppping is newly selected add topping
+                elif (str(topping.id) in pizza_topping_ids) and not(topping in pizza.toppings):
+                    pizza.toppings.append(topping)
+                #Author: Bryce McGilly
+        else:
+            new_pizza = Pizza(name=pizza_name)
+            for topping_id in pizza_topping_ids:
+                new_pizza.toppings.append(Topping.query.get_or_404(topping_id))
+            db.session.add(new_pizza)
+        try:
             db.session.commit()
             flash(pizza_name + " created or modified!")
-        else:
-            flash("Not able to save pizza, name is blank.")
-    except:
-        flash("Not able to save pizza, does " + pizza_name + " already exist?")
+        except:
+            flash("Not able to save pizza, does " + pizza_name + " already exist?")
+    else:
+        flash("Not able to save pizza, name is blank.")
 
     return redirect(url_for('main.manage_pizzas'))
 
@@ -98,25 +94,20 @@ def manage_toppings_post():
     topping_name = request.form.get('topping-name')
     topping_id = request.form.get('topping-id')
 
-    if topping_id and topping_name:
-        topping = Topping.query.get_or_404(topping_id)
-        topping.name = topping_name
-
-    elif topping_name:
-        new_topping = Topping(
-            name=topping_name
-        )
-
-        db.session.add(new_topping)
-
-    try:
-        if topping_name:
+    if topping_name:
+        if topping_id:
+            topping = Topping.query.get_or_404(topping_id)
+            topping.name = topping_name
+        else:
+            new_topping = Topping(name=topping_name)
+            db.session.add(new_topping)
+        try:
             db.session.commit()
             flash(topping_name + " created or modified!")
-        else:
-            flash("Not able to save topping, name is blank.")
-    except:
-        flash("Not able to save topping, does " + topping_name + " already exist?")
+        except:
+            flash("Not able to save topping, does " + topping_name + " already exist?")
+    else:
+        flash("Not able to save topping, name is blank.")
 
     return redirect(url_for('main.manage_toppings'))
 
@@ -124,8 +115,11 @@ def manage_toppings_post():
 def delete_topping(topping_id):
     topping = Topping.query.get_or_404(topping_id)
     db.session.delete(topping)
-    db.session.commit()
-    flash(topping.name + " has been removed.")
+    try:
+        db.session.commit()
+        flash(topping.name + " has been removed.")
+    except:
+        flash("Not able to delete topping: " + topping.name + ".")
 
     return redirect(url_for('main.manage_toppings'))
 

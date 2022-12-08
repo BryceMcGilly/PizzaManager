@@ -8,6 +8,7 @@ def create_app():
     app = Flask(__name__)
 
     uri = os.environ.get('DATABASE_URL')
+    #Make URI compatible with Heroku
     if uri.startswith("postgres://"):
         uri = uri.replace("postgres://", "postgresql://", 1)
 
@@ -15,9 +16,7 @@ def create_app():
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
     db.init_app(app)
-
     app.register_blueprint(main)
-
     with app.app_context():
         db.create_all()
 
