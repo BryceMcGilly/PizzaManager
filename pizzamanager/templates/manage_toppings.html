@@ -35,7 +35,7 @@
         <label for="topping-name"><b>Add A Topping</b></label>
         <br>
         <input type="hidden" name="topping-id" value="{{ topping.id }}">
-        <input type="text" name="topping-name" placeholder="Topping Name" value="{{ topping.name }}" maxlength = "50">
+        <input type="text" name="topping-name" placeholder="Topping Name" value="{{ topping.name }}" maxlength = "{{ MAX_STRING_LENGTH }}">
         <br>
         <input type="submit" value="Add">
     </form>

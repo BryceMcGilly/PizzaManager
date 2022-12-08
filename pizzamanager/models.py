@@ -1,4 +1,4 @@
-from .db import db
+from .db import db, MAX_STRING_LENGTH
 
 pizza_topping = db.Table('pizza_topping',
     db.Column('topping_id', db.Integer, db.ForeignKey('topping.id')),
@@ -7,9 +7,9 @@ pizza_topping = db.Table('pizza_topping',
 
 class Topping(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), unique=True, nullable=False)
+    name = db.Column(db.String(MAX_STRING_LENGTH), unique=True, nullable=False)
 
 class Pizza(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), unique=True, nullable=False)
+    name = db.Column(db.String(MAX_STRING_LENGTH), unique=True, nullable=False)
     toppings = db.relationship('Topping', secondary=pizza_topping, lazy='dynamic')

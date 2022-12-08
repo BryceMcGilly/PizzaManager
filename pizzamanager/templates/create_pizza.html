@@ -35,7 +35,7 @@
         <label for="pizza-name"><b>Pizza Name</b></label>
         <br>
         <input type="hidden" name="pizza-id" value="{{ pizza.id }}">
-        <input type="text" name="pizza-name" placeholder="Pizza Name" value="{{ pizza.name }}" maxlength = "50">
+        <input type="text" name="pizza-name" placeholder="Pizza Name" value="{{ pizza.name }}" maxlength = "{{ MAX_STRING_LENGTH }}">
         <br><br><br>
 
         <table>

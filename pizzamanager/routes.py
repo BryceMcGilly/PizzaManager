@@ -1,7 +1,7 @@
 from flask import Blueprint, request, url_for, redirect, render_template, flash
 
 from .models import Topping, Pizza
-from .db import db
+from .db import db, MAX_STRING_LENGTH
 
 main = Blueprint('main', __name__)
 
@@ -35,7 +35,7 @@ def edit_pizza(pizza_id):
     pizza_toppings = pizza.toppings
     flash("Modify the name or toppings of " + pizza.name + " and click Create Pizza to save your changes.")
 
-    return render_template('create_pizza.html', pizzas=pizzas, pizza=pizza, toppings=toppings, pizza_toppings=pizza_toppings)
+    return render_template('create_pizza.html', pizzas=pizzas, pizza=pizza, toppings=toppings, pizza_toppings=pizza_toppings, MAX_STRING_LENGTH=MAX_STRING_LENGTH)
 
 @main.route('/create_pizza')
 def create_pizza():
@@ -43,7 +43,7 @@ def create_pizza():
     toppings = Topping.query.all()
     flash("Type a name for your new pizza, select the toppings you want on it and click Create Pizza to save it.")
 
-    return render_template('create_pizza.html', pizzas=pizzas, pizza=None, toppings=toppings)
+    return render_template('create_pizza.html', pizzas=pizzas, pizza=None, toppings=toppings, MAX_STRING_LENGTH=MAX_STRING_LENGTH)
 
 @main.route('/create_pizza', methods=['POST'])
 def create_pizza_post():
@@ -91,7 +91,7 @@ def manage_toppings():
     flash("Enter a topping name and click Add to save it.")
     flash("Click Update to modify or Delete to remove an existing topping.")
 
-    return render_template('manage_toppings.html', toppings=toppings, topping=None)
+    return render_template('manage_toppings.html', toppings=toppings, topping=None, MAX_STRING_LENGTH=MAX_STRING_LENGTH)
 
 @main.route('/manage_toppings', methods=['POST'])
 def manage_toppings_post():
@@ -135,4 +135,4 @@ def edit_topping(topping_id):
     toppings = Topping.query.all()
     flash("Modify the name of the topping " + topping.name + " and click Add to save your changes.")
 
-    return render_template('manage_toppings.html', toppings=toppings, topping=topping)
+    return render_template('manage_toppings.html', toppings=toppings, topping=topping, MAX_STRING_LENGTH=MAX_STRING_LENGTH)
