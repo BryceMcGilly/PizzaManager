@@ -18,11 +18,11 @@
         PIZZA MANAGER
     </h3>
     <hr/>
-    <a href="{{ url_for('manage_pizzas') }}" title="Manage Pizzas">Manage Pizzas</a>
+    <a href="{{ url_for('main.manage_pizzas') }}" title="Manage Pizzas">Manage Pizzas</a>
     <br><br>
-    <a href="{{ url_for('manage_toppings') }}" title="Manage Toppings">Manage Toppings</a>
+    <a href="{{ url_for('main.manage_toppings') }}" title="Manage Toppings">Manage Toppings</a>
     <br><br>
-    <a href="{{ url_for('create_pizza') }}" title="Create A Pizza">Create A Pizza</a>
+    <a href="{{ url_for('main.create_pizza') }}" title="Create A Pizza">Create A Pizza</a>
     <hr/>
     
     {% for message in get_flashed_messages() %}
@@ -42,12 +42,12 @@
                 <tr>
                     <td>{{ pizza.name }}</td>
                     <td>
-                        <form action="{{ url_for('edit_pizza', pizza_id=pizza.id) }}" method="POST">
+                        <form action="{{ url_for('main.edit_pizza', pizza_id=pizza.id) }}" method="POST">
                             <input type="submit" value="Update">
                         </form>
                     </td>
                     <td>
-                        <form action="{{ url_for('delete_pizza', pizza_id=pizza.id) }}" method="POST">
+                        <form action="{{ url_for('main.delete_pizza', pizza_id=pizza.id) }}" method="POST">
                             <input type="submit" value="Delete">
                         </form>
                     </td>

@@ -18,11 +18,11 @@
         PIZZA MANAGER
     </h3>
     <hr/>
-    <a href="{{ url_for('manage_pizzas') }}" title="Manage Pizzas">Manage Pizzas</a>
+    <a href="{{ url_for('main.manage_pizzas') }}" title="Manage Pizzas">Manage Pizzas</a>
     <br><br>
-    <a href="{{ url_for('manage_toppings') }}" title="Manage Toppings">Manage Toppings</a>
+    <a href="{{ url_for('main.manage_toppings') }}" title="Manage Toppings">Manage Toppings</a>
     <br><br>
-    <a href="{{ url_for('create_pizza') }}" title="Create A Pizza">Create A Pizza</a>
+    <a href="{{ url_for('main.create_pizza') }}" title="Create A Pizza">Create A Pizza</a>
     <hr/>
 
     {% for message in get_flashed_messages() %}
@@ -31,7 +31,7 @@
     <hr/>
     <br>
 
-    <form action="{{ url_for('manage_toppings') }}" method="POST">
+    <form action="{{ url_for('main.manage_toppings') }}" method="POST">
         <label for="topping-name"><b>Add A Topping</b></label>
         <br>
         <input type="hidden" name="topping-id" value="{{ topping.id }}">
@@ -52,12 +52,12 @@
                 <tr>
                     <td>{{ topping.name }}</td>
                     <td>
-                        <form action="{{ url_for('edit_topping', topping_id=topping.id) }}" method="POST">
+                        <form action="{{ url_for('main.edit_topping', topping_id=topping.id) }}" method="POST">
                             <input type="submit" value="Update">
                         </form>
                     </td>
                     <td>
-                        <form action="{{ url_for('delete_topping', topping_id=topping.id) }}" method="POST">
+                        <form action="{{ url_for('main.delete_topping', topping_id=topping.id) }}" method="POST">
                             <input type="submit" value="Delete">
                         </form>
                     </td>

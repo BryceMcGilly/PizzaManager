@@ -1,58 +1,33 @@
-from flask import Flask, request, url_for, redirect, render_template, flash
-from flask_sqlalchemy import SQLAlchemy
-import os
+from flask import Blueprint, request, url_for, redirect, render_template, flash
 
-app = Flask(__name__)
+from .models import Topping, Pizza
+from .db import db
 
-uri = os.environ.get('DATABASE_URL')
-if uri.startswith("postgres://"):
-    uri = uri.replace("postgres://", "postgresql://", 1)
+main = Blueprint('main', __name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = uri
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-
-db = SQLAlchemy(app)
-
-pizza_topping = db.Table('pizza_topping',
-    db.Column('topping_id', db.Integer, db.ForeignKey('topping.id')),
-    db.Column('pizza_id', db.Integer, db.ForeignKey('pizza.id'))
-)
-
-class Topping(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), unique=True, nullable=False)
-
-class Pizza(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), unique=True, nullable=False)
-    toppings = db.relationship('Topping', secondary=pizza_topping, lazy='dynamic')
-
-with app.app_context():
-    db.create_all()
-
-@app.route('/')
+@main.route('/')
 def home():
     pass
 
-    return redirect(url_for('manage_pizzas'))
+    return redirect(url_for('main.manage_pizzas'))
 
-@app.route('/manage_pizzas')
+@main.route('/manage_pizzas')
 def manage_pizzas():
     pizzas = Pizza.query.all()
     flash("Click the Update button to modify an existing pizza or Delete to remove it.")
 
     return render_template('manage_pizzas.html', pizzas=pizzas)
 
-@app.route('/delete_pizza/<int:pizza_id>', methods=['POST'])
+@main.route('/delete_pizza/<int:pizza_id>', methods=['POST'])
 def delete_pizza(pizza_id):
     pizza = Pizza.query.get_or_404(pizza_id)
     db.session.delete(pizza)
     db.session.commit()
     flash(pizza.name + " has been removed.")
 
-    return redirect(url_for('manage_pizzas'))
+    return redirect(url_for('main.manage_pizzas'))
 
-@app.route('/edit_pizza/<int:pizza_id>', methods=['POST'])
+@main.route('/edit_pizza/<int:pizza_id>', methods=['POST'])
 def edit_pizza(pizza_id):
     pizza = Pizza.query.get_or_404(pizza_id)
     pizzas = Pizza.query.all()
@@ -62,7 +37,7 @@ def edit_pizza(pizza_id):
 
     return render_template('create_pizza.html', pizzas=pizzas, pizza=pizza, toppings=toppings, pizza_toppings=pizza_toppings)
 
-@app.route('/create_pizza')
+@main.route('/create_pizza')
 def create_pizza():
     pizzas = Pizza.query.all()
     toppings = Topping.query.all()
@@ -70,7 +45,7 @@ def create_pizza():
 
     return render_template('create_pizza.html', pizzas=pizzas, pizza=None, toppings=toppings)
 
-@app.route('/create_pizza', methods=['POST'])
+@main.route('/create_pizza', methods=['POST'])
 def create_pizza_post():
     pizza_name = request.form.get('pizza-name')
     pizza_id = request.form.get('pizza-id')
@@ -108,9 +83,9 @@ def create_pizza_post():
     except:
         flash("Not able to save pizza, does " + pizza_name + " already exist?")
 
-    return redirect(url_for('manage_pizzas'))
+    return redirect(url_for('main.manage_pizzas'))
 
-@app.route('/manage_toppings')
+@main.route('/manage_toppings')
 def manage_toppings():
     toppings = Topping.query.all()
     flash("Enter a topping name and click Add to save it.")
@@ -118,7 +93,7 @@ def manage_toppings():
 
     return render_template('manage_toppings.html', toppings=toppings, topping=None)
 
-@app.route('/manage_toppings', methods=['POST'])
+@main.route('/manage_toppings', methods=['POST'])
 def manage_toppings_post():
     topping_name = request.form.get('topping-name')
     topping_id = request.form.get('topping-id')
@@ -143,18 +118,18 @@ def manage_toppings_post():
     except:
         flash("Not able to save topping, does " + topping_name + " already exist?")
 
-    return redirect(url_for('manage_toppings'))
+    return redirect(url_for('main.manage_toppings'))
 
-@app.route('/delete_topping/<int:topping_id>', methods=['POST'])
+@main.route('/delete_topping/<int:topping_id>', methods=['POST'])
 def delete_topping(topping_id):
     topping = Topping.query.get_or_404(topping_id)
     db.session.delete(topping)
     db.session.commit()
     flash(topping.name + " has been removed.")
 
-    return redirect(url_for('manage_toppings'))
+    return redirect(url_for('main.manage_toppings'))
 
-@app.route('/edit_topping/<int:topping_id>', methods=['POST'])
+@main.route('/edit_topping/<int:topping_id>', methods=['POST'])
 def edit_topping(topping_id):
     topping = Topping.query.get_or_404(topping_id)
     toppings = Topping.query.all()
