@@ -7,7 +7,7 @@ from .db import db
 def create_app():
     app = Flask(__name__)
 
-    uri = os.environ.get('DATABASE_URL')
+    uri = os.environ.get('HEROKU_POSTGRESQL_OLIVE_URL')
     #Make URI compatible with Heroku
     if uri.startswith("postgres://"):
         uri = uri.replace("postgres://", "postgresql://", 1)
