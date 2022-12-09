@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv('.env')
+load_dotenv()
 
 uri = os.environ.get('HEROKU_POSTGRESQL_OLIVE_URL')
 #Make URI compatible with Heroku
