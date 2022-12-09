@@ -5,25 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pizza Manager | Manage Pizzas</title>
-    <style>
-        th {
-          text-align: left;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
-    <hr/>
-    <h3>
-        PIZZA MANAGER
-    </h3>
-    <hr/>
-    <a href="{{ url_for('main.manage_pizzas') }}" title="Manage Pizzas">Manage Pizzas</a>
-    <br><br>
-    <a href="{{ url_for('main.manage_toppings') }}" title="Manage Toppings">Manage Toppings</a>
-    <br><br>
-    <a href="{{ url_for('main.create_pizza') }}" title="Create A Pizza">Create A Pizza</a>
-    <hr/>
+    <div class="banner">
+        <br>
+        <h3>
+            PIZZA MANAGER
+        </h3>
+        <a href="{{ url_for('main.manage_pizzas') }}" title="Manage Pizzas">Manage Pizzas</a>
+        <br><br>
+        <a href="{{ url_for('main.manage_toppings') }}" title="Manage Toppings">Manage Toppings</a>
+        <br><br>
+        <a href="{{ url_for('main.create_pizza') }}" title="Create A Pizza">Create A Pizza</a>
+        <br><br><br>
+    </div>
     
     {% for message in get_flashed_messages() %}
     <p> {{message}} </p>
@@ -31,7 +28,7 @@
     <hr/>
     <br>
 
-    <table>
+    <table class="center">
         <thead>
             <tr>
                 <th>Existing Pizzas</th>
@@ -43,12 +40,12 @@
                     <td>{{ pizza.name }}</td>
                     <td>
                         <form action="{{ url_for('main.edit_pizza', pizza_id=pizza.id) }}" method="POST">
-                            <input type="submit" value="Update">
+                            <input type="submit" value="Update" id="update">
                         </form>
                     </td>
                     <td>
                         <form action="{{ url_for('main.delete_pizza', pizza_id=pizza.id) }}" method="POST">
-                            <input type="submit" value="Delete">
+                            <input type="submit" value="Delete" id="delete">
                         </form>
                     </td>
                 </tr>

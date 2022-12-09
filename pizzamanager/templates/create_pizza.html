@@ -5,25 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pizza Manager | Create A Pizza</title>
-    <style>
-        th {
-          text-align: left;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
-    <hr/>
-    <h3>
-        PIZZA MANAGER
-    </h3>
-    <hr/>
-    <a href="{{ url_for('main.manage_pizzas') }}" title="Manage Pizzas">Manage Pizzas</a>
-    <br><br>
-    <a href="{{ url_for('main.manage_toppings') }}" title="Manage Toppings">Manage Toppings</a>
-    <br><br>
-    <a href="{{ url_for('main.create_pizza') }}" title="Create A Pizza">Create A Pizza</a>
-    <hr/>
+    <div class="banner">
+        <br>
+        <h3>
+            PIZZA MANAGER
+        </h3>
+        <a href="{{ url_for('main.manage_pizzas') }}" title="Manage Pizzas">Manage Pizzas</a>
+        <br><br>
+        <a href="{{ url_for('main.manage_toppings') }}" title="Manage Toppings">Manage Toppings</a>
+        <br><br>
+        <a href="{{ url_for('main.create_pizza') }}" title="Create A Pizza">Create A Pizza</a>
+        <br><br><br>
+    </div>
 
     {% for message in get_flashed_messages() %}
     <p> {{message}} </p>
@@ -32,13 +29,13 @@
     <br>
 
     <form action="{{ url_for('main.create_pizza') }}" method="POST">
-        <label for="pizza-name"><b>Pizza Name</b></label>
+        <label for="pizza-name">Pizza Name</label>
         <br>
         <input type="hidden" name="pizza-id" value="{{ pizza.id }}">
-        <input type="text" name="pizza-name" placeholder="Pizza Name" value="{{ pizza.name }}" maxlength = "{{ MAX_STRING_LENGTH }}">
+        <input type="text" name="pizza-name" placeholder="Pizza Name" value="{{ pizza.name }}" maxlength = "{{ MAX_STRING_LENGTH }}" id="textInput">
         <br><br><br>
 
-        <table>
+        <table class="center">
             <thead>
                 <tr>
                     <th>Add Toppings</th>
@@ -60,7 +57,7 @@
         </table>
         <br><br>
 
-        <input type="submit" value="Create Pizza">
+        <input type="submit" value="Create Pizza" id="update">
     </form>
 
 </body>

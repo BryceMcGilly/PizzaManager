@@ -1,0 +1,159 @@
+body {
+    background-color:darkorange;
+    text-align:center;
+    margin:0;
+    font-family: Shanti;
+}
+
+.banner {
+	position: relative;
+	background-image: url('../img/pizza_banner.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+h3 {
+    color:whitesmoke;
+    padding: 4px 6px 4px 6px;
+    background-color:tomato;
+    border:2px crimson solid;
+    width:40%;
+    margin-left:auto;
+    margin-right:auto;
+    font-family: Shanti;
+}
+
+a:link {
+    color:whitesmoke;
+    font-weight:bold;
+    padding: 4px 6px 4px 6px;
+    background-color: forestgreen;
+    border:2px darkgreen solid;
+    border-radius:10px;
+    text-decoration:none;
+    font-family: Shanti;
+}
+
+a:visited {
+    color:whitesmoke;
+    font-weight:bold;
+    padding: 4px 6px 4px 6px;
+    background-color: forestgreen;
+    border:2px darkgreen solid;
+    border-radius:10px;
+    text-decoration:none;
+    font-family: Shanti;
+}
+
+a:hover {
+    color:wheat;
+}
+
+a:active {
+    color:forestgreen;
+    font-weight:bold;
+    padding: 4px 6px 4px 6px;
+    background-color:whitesmoke;
+    border:2px darkgreen solid;
+    border-radius:10px;
+    text-decoration:none;
+    font-family: Shanti;
+}
+
+hr {
+    background-color:darkgreen;
+    border-color:whitesmoke;
+}
+
+p {
+    font-weight:bold;
+    font-family: Shanti;
+    color:black;
+}
+
+label {
+    font-weight:bold;
+    font-family: Shanti;
+    color:black;
+}
+
+tr {
+    font-family: Shanti;
+    color:black;
+}
+
+#textInput {
+    width:40%;
+    height:26px;
+    margin: 2px;
+    border: 2px darkgreen solid;
+    border-radius: 10px;
+    font-family: Shanti;
+    font-size: 1.25em;
+    text-align: center;
+}
+
+#textInput:focus {
+    border: 2px crimson solid;
+    outline: none;
+}
+
+table.center {
+    margin-left:auto;
+    margin-right:auto;
+}
+
+input[type=checkbox] {
+    accent-color:forestgreen;
+}
+
+input[type=checkbox]:hover {
+    cursor:pointer;
+    accent-color:crimson;
+}
+
+#update {
+    color:whitesmoke;
+    font-weight:bold;
+    padding: 4px 6px 4px 6px;
+    background-color: forestgreen;
+    border:2px darkgreen solid;
+    border-radius:10px;
+}
+
+#update:hover {
+    cursor:pointer;
+    color:wheat;
+}
+
+#update:active {
+    color:forestgreen;
+    font-weight:bold;
+    padding: 4px 6px 4px 6px;
+    background-color:whitesmoke;
+    border:2px darkgreen solid;
+    border-radius:10px;
+}
+
+#delete {
+    color:whitesmoke;
+    font-weight:bold;
+    padding: 4px 6px 4px 6px;
+    background-color:tomato;
+    border:2px crimson solid;
+    border-radius:10px;
+}
+
+#delete:hover {
+    cursor:pointer;
+    color:wheat;
+}
+
+#delete:active {
+    color:tomato;
+    font-weight:bold;
+    padding: 4px 6px 4px 6px;
+    background-color:whitesmoke;
+    border:2px crimson solid;
+    border-radius:10px;
+}
