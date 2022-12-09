@@ -1,1 +1,1 @@
-web: gunicorn pizzamanager:create_app()
+web: gunicorn wsgi:app
