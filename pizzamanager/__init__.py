@@ -1,14 +1,11 @@
 from flask import Flask
 import os
-from dotenv import load_dotenv
 
 from .routes import main
 from .db import db
 
 def create_app():
-    app = Flask(__name__,  instance_relative_config=True)
-
-    load_dotenv()
+    app = Flask(__name__)
 
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('HEROKU_POSTGRESQL_OLIVE_URL')
     print("DB: " + app.config.get('SQLALCHEMY_DATABASE_URI'))
