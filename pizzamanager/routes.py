@@ -7,7 +7,7 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def home():
-    pass
+    flash("Pizza Manager - Created by Bryce McGilly")
 
     return redirect(url_for('main.manage_pizzas'))
 
